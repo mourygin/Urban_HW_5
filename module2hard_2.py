@@ -8,18 +8,17 @@ for i in range(3, 21):
         if i % j == 0:
             multiples.append(j)
         j += 1
+    #print(i, ' - ', multiples)
     for j in multiples:
         k = 1
         while k <= j // 2:
-            if k != j-k:
+            if k != j - k:
                 pairs.append([k, j - k])
-                k += 1
+            k += 1
+        #print(pairs)
     password = ''
     for j in pairs:
         password += str(j[0]) + str(j[1])
 
-    print(i, ' - ', password)
-
-
-
-
+    #print(i, ' - ', password)
+    print(i, ' - ', multiples, ' - ', pairs, ' - ', password)
