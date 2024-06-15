@@ -4,8 +4,15 @@ from tkinter import *
 from tkinter.ttk import *
 
 def put_digit(digit):
+    global operands, cur_operand_nr, started
+    if started:
+        operands[cur_operand_nr] = operands[cur_operand_nr] * 10 + digit
+        print(operands[cur_operand_nr])
+        operand_to_scoreboard()
+
+def put_digit_9():
     global operands, cur_operand_nr
-    operands[cur_operand_nr] = operands[cur_operand_nr] * 10 + digit
+    operands[cur_operand_nr] = operands[cur_operand_nr] * 10 + 9
     operand_to_scoreboard()
 
 def always_on_top_():
@@ -28,7 +35,7 @@ def operand_to_scoreboard():
 def clear_all():
     operands = [0, 0]
     cur_operand_nr = 0
-    scoreboard[text] = '0'
+    scoreboard['text'] = '0'
 
 # def menu_vis_swicher():
 #     global menu_visible
@@ -54,6 +61,7 @@ window.iconbitmap(default="my_calc.ico")
 operands = [0, 0]
 cur_operand_nr = 0
 scoreboard_text = '0'
+started = False
 
 
 # МЕНЮ
@@ -83,9 +91,10 @@ button_ontop.place(x=165, y=10)
 
 # ТАБЛО
 frame = ttk.Frame(borderwidth=5, relief="solid")
-frame.place(x=5, y=50)
-scoreboard = tk.Label(frame, text = scoreboard_text, font='Arial 25', borderwidth=5, relief="flat", width = 15, anchor=tk.E)
-scoreboard.pack(anchor="nw")
+#frame.place(x=5, y=50)
+frame.pack(expand=None, anchor=tk.W)
+scoreboard = tk.Label(frame, text = scoreboard_text, font='Arial 25', borderwidth=5, relief="flat", width = 15, height = 1 ,anchor=tk.E)
+scoreboard.pack(expand=None, anchor=tk.W)
 
 # КНОПКИ МАНИПУЛЯЦИЙ С ПАМЯТЬЮ
 button_mc = tk.Button(window, width = 6, text = 'MC')
@@ -106,7 +115,7 @@ button_proc = tk.Button(window, width = 9, height = 2, text = '%')
 button_proc.place(x=4, y=150)
 button_ce = tk.Button(window, width = 9, height = 2, text = 'CE')
 button_ce.place(x=83, y=150)
-button_c = tk.Button(window, width = 9, height = 2, text = 'C')
+button_c = tk.Button(window, width = 9, height = 2, text = 'C', command=clear_all())
 button_c.place(x=162, y=150)
 pic_back = PhotoImage(file = "back.png")
 button_back = tk.Button(window, width = 68, height = 35, image = pic_back)#, text = 'C')
@@ -132,28 +141,30 @@ button_res = tk.Button(window, width = 9, height = 2, text = '=', font='Arial 9'
 button_res.place(x=241, y=400)
 
 # КНОПКИ ЦИФР
-button_7 = tk.Button(window, width = 9, height = 2, text = '7', command = put_digit(7))
-button_7.place(x=4, y=250)
-button_8 = tk.Button(window, width = 9, height = 2, text = '8', command = put_digit(8))
-button_8.place(x=83, y=250)
-button_9 = tk.Button(window, width = 9, height = 2, text = '9', command = put_digit(9))
-button_9.place(x=162, y=250)
-button_4 = tk.Button(window, width = 9, height = 2, text = '4', command = put_digit(4))
-button_4.place(x=4, y=300)
+# button_7 = tk.Button(window, width = 9, height = 2, text = '7', command = put_digit(7))
+# button_7.place(x=4, y=250)
+# button_8 = tk.Button(window, width = 9, height = 2, text = '8', command = put_digit(8))
+# button_8.place(x=83, y=250)
+# button_9 = tk.Button(window, width = 9, height = 2, text = '9', command = put_digit_9())
+# button_9.place(x=162, y=250)
+# button_4 = tk.Button(window, width = 9, height = 2, text = '4', command = put_digit(4))
+# button_4.place(x=4, y=300)
 button_5 = tk.Button(window, width = 9, height = 2, text = '5', command = put_digit(5))
 button_5.place(x=83, y=300)
-button_6 = tk.Button(window, width = 9, height = 2, text = '6', command = put_digit(6))
-button_6.place(x=162, y=300)
-button_1 = tk.Button(window, width = 9, height = 2, text = '1', command = put_digit(1))
-button_1.place(x=4, y=350)
-button_2 = tk.Button(window, width = 9, height = 2, text = '2', command = put_digit(2))
-button_2.place(x=83, y=350)
-button_3 = tk.Button(window, width = 9, height = 2, text = '3', command = put_digit(3))
-button_3.place(x=162, y=350)
-button_0 = tk.Button(window, width = 9, height = 2, text = '0', command = put_digit(0))
-button_0.place(x=83, y=400)
-button_point = tk.Button(window, width = 9, height = 2, text = ',')#, command = put_digit(','))
-button_point.place(x=162, y=400)
+# button_5.config(command = put_digit(5))
+# button_6 = tk.Button(window, width = 9, height = 2, text = '6', command = put_digit(6))
+# button_6.place(x=162, y=300)
+# button_1 = tk.Button(window, width = 9, height = 2, text = '1', command = put_digit(1))
+# button_1.place(x=4, y=350)
+# button_2 = tk.Button(window, width = 9, height = 2, text = '2', command = put_digit(2))
+# button_2.place(x=83, y=350)
+# button_3 = tk.Button(window, width = 9, height = 2, text = '3', command = put_digit(3))
+# button_3.place(x=162, y=350)
+# button_0 = tk.Button(window, width = 9, height = 2, text = '0', command = put_digit(0))
+# button_0.place(x=83, y=400)
+# button_point = tk.Button(window, width = 9, height = 2, text = ',')#, command = put_digit(','))
+# button_point.place(x=162, y=400)
 
+started = True
 tk.mainloop()
 
