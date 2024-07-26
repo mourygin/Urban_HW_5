@@ -12,7 +12,7 @@ class Car():
     def __is_valid_numbers(self, numbers):
         if not isinstance(numbers, str):
             raise IncorrectCarNumbers('Некорректный тип данных для номеров')
-        elif len(__numbers) != 6:
+        elif len(numbers) != 6:
             raise IncorrectCarNumbers('Неверная длина номера')
         return numbers
 class IncorrectVinNumber(Exception):
