@@ -2,11 +2,7 @@ class Car():
     def __init__(self, model, __vin, __numbers):
         self.model = model
         self.__vin = self.__is_valid_vin(__vin)
-        self.__numbers = __numbers
-        if not isinstance(__numbers, str):
-            raise IncorrectCarNumbers('Некорректный тип данных для номеров')
-        elif len(__numbers) != 6:
-            raise IncorrectCarNumbers('Неверная длина номера')
+        self.__numbers = self.__is_valid_numbers(__numbers)
     def __is_valid_vin(self, vin_number):
         if not isinstance(vin_number, int):
             raise IncorrectVinNumber('Некорректный тип vin номера')
