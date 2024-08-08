@@ -29,6 +29,7 @@ class Menu():
         return [order, order_cost]
 class Table():
     def serve_customer(self):
+        global final
         if self.customer != None:
             # real_t = datetime.now() - self.customer.beg_moment
             real_t = float(time.time()) - float(self.customer.beg_moment)
@@ -69,15 +70,16 @@ class Table():
         self.customer = None
         # # Каждому столу создаем функцию "обслужить клиента" и помещаем ее в отдельный поток
         def f():
+            global final
             self.serve_customer()
-            tmr = threading.Timer(cafe.serv_t,function=f)
-            tmr.start()
+            if not final:
+                tmr = threading.Timer(cafe.serv_t,function=f)
+                tmr.start()
         ff.append(f)
         tr = threading.Thread(target=f)
         trtr.append(tr)
         tr.start()
         tr.join()
-
 
 class Cafe():
     def __init__(self, name, tables):
@@ -110,9 +112,6 @@ class Cafe():
                 customer.payment = order[1]
                 customer.beg_moment = time.time()
                 return
-
-
-
 class Customer():
     def __init__(self, number):
         self.number = number
@@ -192,6 +191,7 @@ class Squere():
         print('======================================================')
         exit()
 if __name__ == '__main__':
+    final = False
     trs = []
     squere = Squere()
     menu = Menu()
