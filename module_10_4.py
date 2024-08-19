@@ -52,8 +52,8 @@ class Table():
             self.cafe.cust_lock.acquire()
             self.cafe.customer_counter += 1
             self.cafe.cust_lock.release()
-            # проверяем остались ли еще посетители, не пора ли выводить статистику?
-            if time.time() - work_start >= 180:
+            # проверяем остались ли еще необслужанные посетители, не пора ли выводить статистику?
+            if time.time() - work_start >= working_day:
                 final = True
                 for cafe in squere.cafes:
                     for table in cafe.table_list:
@@ -170,8 +170,8 @@ class Squere():
         while True:
             self.cust_gen()
             time.sleep(1)
-            # Конец смены
-            if time.time() - work_start >= 180:
+            # Конец смены. Прекращение появления новых клиентов.
+            if time.time() - work_start >= working_day:
                 break
     def cust_gen(self):
         global customer_nr
@@ -189,8 +189,15 @@ class Squere():
             print(f'Получено ${cafe.kassa} выручки. (${round(cafe.kassa / cafe.tables, 2)} в пересчете на 1 стол.)')
             print(f'Заплачено чаевых ${cafe.tips}. (${round(cafe.tips / cafe.tables, 2)} в пересчете на 1 стол.)')
         print('======================================================')
+        tr_alive = False
+        for tr in trtr:
+            if tr.is_alive():
+                tr_alive = True
+        if (not tr_alive) and (not tr_cust_gen.is_alive()):
+            print('Все потоки корректно завершили свою работу.')
         exit()
 if __name__ == '__main__':
+    working_day = 18 # Длительностьь смены (в секундах реальной работы программы)
     final = False
     trs = []
     squere = Squere()
